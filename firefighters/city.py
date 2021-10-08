@@ -100,6 +100,21 @@ class CityImpl(City):
     def get_building_from_node(self, city_node: CityNode) -> Building:
         return self.get_building(city_node.x_coordinate, city_node.y_coordinate)
 
+    def get_neighbor_locations(self, city_node: CityNode):
+        neighbors = []
+        x_directions = [-1, 1, 0, 0]
+        y_directions = [0, 0, -1, 1]
+        for i in range(4):
+            x = city_node.x_coordinate + x_directions[i]
+            y = city_node.y_coordinate + y_directions[i]
+            try:
+                self.__validate_coordinate(x, y)
+                neighbors.append(CityNode(x, y))
+            except OutOfCityBoundsException:
+                continue
+
+        return neighbors
+
     def __init_building_grid(self, x_dimension: int, y_dimension: int) -> List[List[Building]]:
         grid = list()
         for row in range(x_dimension):

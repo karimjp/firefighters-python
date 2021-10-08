@@ -43,19 +43,21 @@ class FireDispatch(ABC):
 class FireDispatchImpl(FireDispatch):
 
     def __init__(self, city: City):
-        # TODO
-        raise NotImplementedError()
+        self._city = city
+        self._firefighters = []
 
     @property
     def firefighters(self) -> List[FireFighter]:
-        # TODO
-        raise NotImplementedError()
+        return self._firefighters
 
     @firefighters.setter
     def firefighters(self, num_firefighters: int) -> None:
-        # TODO
-        raise NotImplementedError()
+        from firefighters.firefighter import FireFighterImpl
+        for num_firefighter in range(0, num_firefighters):
+            self._firefighters.append(FireFighterImpl(self._city))
 
     def dispatch_firefighters(self, burning_buildings: List[CityNode]):
-        # TODO
-        raise NotImplementedError()
+        for burning_building in burning_buildings:
+            firefighter = self._firefighters.pop(0)
+            firefighter.extinguish_fire(burning_building)
+            self._firefighters.append(firefighter)
